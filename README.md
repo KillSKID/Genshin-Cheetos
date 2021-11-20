@@ -14,4 +14,4 @@ Based on https://github.com/xsslize/Genshin-Cheat-Base, https://github.com/KnsGo
 - FlyHack
 - LockY
 
-and comes from a gui
+and comes with a gui
