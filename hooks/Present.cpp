@@ -303,6 +303,8 @@ HRESULT PRESENT_CALL Base::Hooks::Present(IDXGISwapChain* thisptr, UINT SyncInte
 							ImGui::Text("- Simple Gui");
 							ImGui::NextColumn();
 							ImGui::Text("- I will add more features in the coming future");
+							ImGui::NextColumn();
+							ImGui::Text("- If you bought this you are retarded");
 						}
 						ImGui::EndGroup();
 						break;
@@ -429,6 +431,10 @@ HRESULT PRESENT_CALL Base::Hooks::Present(IDXGISwapChain* thisptr, UINT SyncInte
 		}
 		if (cfg.Enable_FlyHack) {
 			arrays[index] = R"(FlyHack)";
+			index++;
+		}
+		if (cfg.Enable_LockY) {
+			arrays[index] = R"(LockY)";
 			index++;
 		}
 

@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="imgui\imgui.cpp">
+      <Filter>imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui_demo.cpp">
+      <Filter>imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui_draw.cpp">
+      <Filter>imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui_impl_dx11.cpp">
+      <Filter>imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui_impl_win32.cpp">
+      <Filter>imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui_tables.cpp">
+      <Filter>imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui_widgets.cpp">
+      <Filter>imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="libmem++\libmem.cpp">
+      <Filter>libmem++</Filter>
+    </ClCompile>
+    <ClCompile Include="pattern scanner\Memory Pattern Scanner.cpp">
+      <Filter>pattern scanner</Filter>
+    </ClCompile>
+    <ClCompile Include="pattern scanner\Patcher.cpp">
+      <Filter>pattern scanner</Filter>
+    </ClCompile>
+    <ClCompile Include="pattern scanner\Pattern Scanner.cpp">
+      <Filter>pattern scanner</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\base.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pch.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="hooks\hooks.cpp">
+      <Filter>hooks</Filter>
+    </ClCompile>
+    <ClCompile Include="hooks\WndProc.cpp">
+      <Filter>hooks</Filter>
+    </ClCompile>
+    <ClCompile Include="features\Modules.cpp">
+      <Filter>features</Filter>
+    </ClCompile>
+    <ClCompile Include="hooks\Present.cpp">
+      <Filter>features</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="configs\Configs.h">
+      <Filter>configs</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imconfig.h">
+      <Filter>imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imgui.h">
+      <Filter>imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imgui_impl_dx11.h">
+      <Filter>imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imgui_impl_win32.h">
+      <Filter>imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imgui_internal.h">
+      <Filter>imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imstb_rectpack.h">
+      <Filter>imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imstb_truetype.h">
+      <Filter>imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imstb_textedit.h">
+      <Filter>imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="libmem++\libmem.hpp">
+      <Filter>libmem++</Filter>
+    </ClInclude>
+    <ClInclude Include="pattern scanner\Memory Pattern Scanner.h">
+      <Filter>pattern scanner</Filter>
+    </ClInclude>
+    <ClInclude Include="pattern scanner\Patcher.h">
+      <Filter>pattern scanner</Filter>
+    </ClInclude>
+    <ClInclude Include="pattern scanner\Pattern Scanner.h">
+      <Filter>pattern scanner</Filter>
+    </ClInclude>
+    <ClInclude Include="pattern scanner\Patterns list.h">
+      <Filter>pattern scanner</Filter>
+    </ClInclude>
+    <ClInclude Include="src\base.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\pch.h">
+      <Filter>hooks</Filter>
+    </ClInclude>
+    <ClInclude Include="hooks\FontData.h">
+      <Filter>hooks</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="assets\readme.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="configs">
+      <UniqueIdentifier>{8bc1c253-7349-432e-9e0c-c9f9ca8f627a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="imgui">
+      <UniqueIdentifier>{d0f1a1b2-6723-4e80-ad4b-5ad3d69dc1c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libmem++">
+      <UniqueIdentifier>{acb431e0-1cff-4b8a-8c60-143eebd8a36d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="pattern scanner">
+      <UniqueIdentifier>{9a14542d-965c-42a1-b6e2-6a866726b38a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{bb925f21-fb05-499a-a1a5-d36fb3a62bf1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="hooks">
+      <UniqueIdentifier>{a46557bb-8528-421f-86f2-458aa31fbe15}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="features">
+      <UniqueIdentifier>{794cba75-ace7-4427-b008-fba17046b3f8}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
