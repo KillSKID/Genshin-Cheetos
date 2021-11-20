@@ -15,4 +15,4 @@ Based on https://github.com/xsslize/Genshin-Cheat-Base, https://github.com/KnsGo
 - LockY
 
 and comes with a gui
-![image](https://imgur.com/a/GgDalEI)
+![image](https://i.imgur.com/YVe2mM6.png)
