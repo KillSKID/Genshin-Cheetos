@@ -6,6 +6,8 @@
 #include <base.h>
 #include "../configs/Configs.h"
 #include "../hooks/FontData.h"
+#include "../src/ColorUtil.h"
+#pragma warning(disable:4996) // disalbe time warning
 
 extern Config cfg;
 
@@ -13,44 +15,14 @@ int AnimateAlpha = 0;
 float h = 0;
 bool ShowAnimation = false;
 
-ImVec4 HSVtoRGB(float H, float S, float V) {
-	if (H > 360 || H < 0 || S>100 || S < 0 || V>100 || V < 0) {
-		H = 360;
-	}
-	float s = S / 100;
-	float v = V / 100;
-	float C = s * v;
-	float X = C * (1.f - fabs(fmod(H / 60.0, 2.f) - 1.f));
-	float m = v - C;
-	float r, g, b;
-
-	if (H >= 0.f && H < 60.f) {
-		r = C, g = X, b = 0;
-	}
-	else if (H >= 60.f && H < 120.f) {
-		r = X, g = C, b = 0;
-	}
-	else if (H >= 120.f && H < 180.f) {
-		r = 0, g = C, b = X;
-	}
-	else if (H >= 180.f && H < 240.f) {
-		r = 0, g = X, b = C;
-	}
-	else if (H >= 240.f && H < 300.f) {
-		r = X, g = 0, b = C;
-	}
-	else {
-		r = C, g = 0, b = X;
-	}
-	float R = (r + m);
-	float G = (g + m);
-	float B = (b + m);
-
-	return ImVec4(R, G, B, 1.f);
-}
+ImFont* verdana;
+ImFont* roboto;
+ImFont* museosans;
+ImFont* iconFont;
 
 HRESULT PRESENT_CALL Base::Hooks::Present(IDXGISwapChain* thisptr, UINT SyncInterval, UINT Flags)
 {
+	static ImFontAtlas font;
 	if (Data::ShowMenu)
 	{
 		ShowAnimation = true;
@@ -77,8 +49,10 @@ HRESULT PRESENT_CALL Base::Hooks::Present(IDXGISwapChain* thisptr, UINT SyncInte
 			ImGui::CreateContext();
 			ImGuiIO& io = ImGui::GetIO();
 
-			io.Fonts->AddFontFromMemoryCompressedTTF(verdana_compressed_data, verdana_compressed_size, 14, NULL, io.Fonts->GetGlyphRangesCyrillic());
-
+			verdana = io.Fonts->AddFontFromMemoryCompressedTTF(verdana_compressed_data, verdana_compressed_size, 14, NULL, io.Fonts->GetGlyphRangesCyrillic());
+			roboto = io.Fonts->AddFontFromMemoryCompressedTTF(roboto_compressed_data, roboto_compressed_size, 14, NULL, io.Fonts->GetGlyphRangesCyrillic());
+			museosans = io.Fonts->AddFontFromMemoryCompressedTTF(museosans_compressed_data, museosans_compressed_size, 14, NULL, io.Fonts->GetGlyphRangesCyrillic());
+			iconFont = io.Fonts->AddFontFromMemoryCompressedTTF(iconfont_compressed_data, iconfont_compressed_size, 64, NULL, io.Fonts->GetGlyphRangesCyrillic());
 			io.ConfigFlags = ImGuiConfigFlags_NoMouseCursorChange;
 
 			ImGui_ImplWin32_Init(Data::hWindow);
@@ -99,10 +73,21 @@ HRESULT PRESENT_CALL Base::Hooks::Present(IDXGISwapChain* thisptr, UINT SyncInte
 	ImGuiStyle& style = ImGui::GetStyle();
 
 	static ImColor mainColor = ImColor(0, 122, 204, AnimateAlpha);
+	static ImColor ImColor0 = ImColor(mainColor.Value.x, mainColor.Value.y, mainColor.Value.z);
 	static float my_color[4] = { 0.f, 0.47843137254f, 0.8f, 1.f };
 
 	auto colors = style.Colors;
 	style.Alpha = AnimateAlpha / 255.f;
+
+	int delay = -600;
+	//Color bar color needs in on render update
+	colors[ImGuiCol_ColorBar1] = rainbowHSB(0, cfg.Saturation, cfg.Brightness);
+	colors[ImGuiCol_ColorBar2] = rainbowHSB(delay, cfg.Saturation, cfg.Brightness);
+	colors[ImGuiCol_ColorBar3] = rainbowHSB(delay * 2, cfg.Saturation, cfg.Brightness);
+	colors[ImGuiCol_ColorBar4] = rainbowHSB(delay * 3, cfg.Saturation, cfg.Brightness);
+	colors[ImGuiCol_ColorBar5] = rainbowHSB(delay * 4, cfg.Saturation, cfg.Brightness);
+	colors[ImGuiCol_ColorBar6] = rainbowHSB(delay * 5, cfg.Saturation, cfg.Brightness);
+
 	colors[ImGuiCol_WindowBg] = ImColor(15, 15, 15, AnimateAlpha);
 	colors[ImGuiCol_ChildBg] = ImColor(10, 10, 10, AnimateAlpha);
 	colors[ImGuiCol_Border] = ImColor(30, 30, 30, AnimateAlpha);
@@ -111,8 +96,8 @@ HRESULT PRESENT_CALL Base::Hooks::Present(IDXGISwapChain* thisptr, UINT SyncInte
 	colors[ImGuiCol_FrameBgHovered] = ImColor(40, 40, 40);
 	colors[ImGuiCol_FrameBgActive] = ImColor(20, 20, 20, AnimateAlpha);
 	colors[ImGuiCol_Separator] = mainColor;
-	colors[ImGuiCol_SliderGrab] = mainColor;
-	colors[ImGuiCol_SliderGrabActive] = mainColor;
+	colors[ImGuiCol_SliderGrab] = ImColor0;
+	colors[ImGuiCol_SliderGrabActive] = ImColor0;
 	colors[ImGuiCol_PopupBg] = ImColor(30, 30, 30, AnimateAlpha);
 	colors[ImGuiCol_ScrollbarBg] = ImColor(0, 0, 0, 0);
 	colors[ImGuiCol_ScrollbarGrab] = mainColor;
@@ -133,33 +118,58 @@ HRESULT PRESENT_CALL Base::Hooks::Present(IDXGISwapChain* thisptr, UINT SyncInte
 		ImGui::SetNextWindowSize(ImVec2(650, 470));
 		ImGui::Begin("Genshit", nullptr, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse | ImGuiWindowFlags_NoTitleBar); {
 			ImGui::BeginGroup();
-			ImGui::ColorBar("unicorn", ImVec2(650.f, 2.f));
+			ImGui::ColorBar("unicorn", ImVec2(650.f, 2.f), 2.f);
 			ImGui::EndGroup();
 
 			static int tabs = 0;
 			auto d = ImGui::GetWindowDrawList();
 			auto p = ImGui::GetWindowPos();
-			ImGui::SetWindowFontScale(1.25f);
+
 			ImGui::BeginGroup();
 			{
-				if (ImGui::Button("Visuals", ImVec2(120, 85)))
+				ImGui::PushFont(iconFont);
+			    ImGui::SetWindowFontScale(1.1);
+				if (ImGui::Button("a", ImVec2(120, 85)))
 					tabs = 0;
 				ImGui::NextColumn();
-				if (ImGui::Button("Movement", ImVec2(120, 85)))
+				if (ImGui::Button("@", ImVec2(120, 85)))
 					tabs = 1;
 				ImGui::NextColumn();
-				if (ImGui::Button("Combat", ImVec2(120, 85)))
+				if (ImGui::Button("b", ImVec2(120, 85)))
 					tabs = 2;
 				ImGui::NextColumn();
-				if (ImGui::Button("Configs", ImVec2(120, 85)))
+				if (ImGui::Button("d", ImVec2(120, 85)))
 					tabs = 3;
 				ImGui::NextColumn();
-				if (ImGui::Button("Info", ImVec2(120, 85)))
+				if (ImGui::Button("A", ImVec2(120, 85)))
 					tabs = 4;
+
 			};
 			ImGui::EndGroup();
 
+			const char* fonts[] = { "Verdana", "Roboto", "Museosans" };
+			static int fontIndex = 0;
+
+			ImGui::PopFont();
+			switch (fontIndex)
+			{
+			case 0: {
+				ImGui::PushFont(verdana);
+				break;
+			}
+			case 1: {
+				ImGui::PushFont(roboto);
+				break;
+			}
+			case 2: {
+				ImGui::PushFont(museosans);
+				break;
+			}
+			default:
+				break;
+			}
 			ImGui::SetWindowFontScale(1);
+
 			ImGui::SameLine();
 			{
 				ImGui::BeginGroup();
@@ -191,6 +201,7 @@ HRESULT PRESENT_CALL Base::Hooks::Present(IDXGISwapChain* thisptr, UINT SyncInte
 					static float s = 100;
 					static float b = 100;
 
+
 					switch (tabs)
 					{
 					case 0:
@@ -213,6 +224,8 @@ HRESULT PRESENT_CALL Base::Hooks::Present(IDXGISwapChain* thisptr, UINT SyncInte
 
 								ImGui::SliderFloat("Rb Saturation", &s, 0.f, 100.f, "%f");
 								ImGui::SliderFloat("Rb Brightness", &b, 0.f, 100.f, "%f");
+
+								ImGui::Combo("Font", &fontIndex, fonts, IM_ARRAYSIZE(fonts));
 
 								ImGui::SliderFloat("Rb Speed", &rainbowSpeed, 0.f, 10.f, "%f");
 								ImGui::Checkbox("Watermark", &waterMark);
@@ -343,6 +356,8 @@ HRESULT PRESENT_CALL Base::Hooks::Present(IDXGISwapChain* thisptr, UINT SyncInte
 				}
 			}
 
+			ImGui::PopFont();
+
 			ImGui::End();
 		}
 	}
@@ -358,23 +373,34 @@ HRESULT PRESENT_CALL Base::Hooks::Present(IDXGISwapChain* thisptr, UINT SyncInte
 	colors[ImGuiCol_Header] = ImColor(40, 40, 40, 255);
 	colors[ImGuiCol_Button] = ImColor(12, 12, 12, 255);
 	colors[ImGuiCol_Text] = ImColor(255, 255, 255, 255);
-	;
+
 
 	if (cfg.EnableWaterMark) {
-		ImGui::SetNextWindowSize(ImVec2(216, 50));
+		static ImVec2 lastItemSpacing = style.ItemSpacing;
+		style.ItemSpacing = ImVec2(0.f, 0.f);
+		ImGui::SetNextWindowSize(ImVec2(256, 43));
 		ImGui::SetNextWindowBgAlpha(255.0f);
-		ImGui::Begin("caoniam", nullptr, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse | ImGuiWindowFlags_NoTitleBar);
-		ImGui::BeginChild("ccc", ImVec2(200, 35), true, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse | ImGuiWindowFlags_NoTitleBar);
-		ImGui::ColorBar("unicorn", ImVec2(200.0f, 2.f));
+		ImGui::Begin("watermark", nullptr, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse | ImGuiWindowFlags_NoTitleBar);
+
+		ImGui::BeginChild("watermakrInner", ImVec2(240, 27), true, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse | ImGuiWindowFlags_NoTitleBar);
+		ImGui::ColorBar("unicorn", ImVec2(240.0f, 2.f), 2);
+
 		ImGui::Text(" cheetos");
 		ImGui::SameLine();
 		ImGui::TextColored(ImVec4(0, 1.f, 0.5f, 1.f), "sense");
 		ImGui::SameLine();
-		ImGui::Text(" | ");
+		ImGui::Text(" | verycool | ");
 		ImGui::SameLine();
-		ImGui::Text("verycool");
+
+		time_t t = time(0); // get time now
+		struct tm* now = localtime(&t);
+	    char hourStr[32];
+		snprintf(hourStr, 14, "%02d:%02d:%02d", (now->tm_hour), (now->tm_min), now->tm_sec);
+		ImGui::Text(hourStr);
+
 		ImGui::EndChild();
 		ImGui::End();
+		style.ItemSpacing = lastItemSpacing;
 	}
 
 	if (cfg.arrayList) {
@@ -384,8 +410,8 @@ HRESULT PRESENT_CALL Base::Hooks::Present(IDXGISwapChain* thisptr, UINT SyncInte
 		colors[ImGuiCol_TitleBg] = ImColor(50, 50, 50, AnimateAlpha);
 		colors[ImGuiCol_TitleBgActive] = mainColor;
 		ImGui::SetNextWindowSizeConstraints(ImVec2(150, 100), ImVec2(INT32_MAX, INT32_MAX));
-		ImGui::Begin("caoniam2", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse);
-		ImGui::SetWindowFontScale(1.25f);
+		ImGui::Begin("arraylist", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse);
+		ImGui::SetWindowFontScale(1.1f);
 		float startH = h;
 		const char* arrays[11] = {};
 		int index = 0;
@@ -454,7 +480,7 @@ HRESULT PRESENT_CALL Base::Hooks::Present(IDXGISwapChain* thisptr, UINT SyncInte
 		static char coords[32];
 		snprintf(coords, 32, "X %.01f, Z %.01f\n", cfg.x, cfg.z);
 		ImGui::SetNextWindowSizeConstraints(ImVec2(200, 40), ImVec2(INT32_MAX, INT32_MAX));
-		ImGui::Begin("caoniam3", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse);
+		ImGui::Begin("posistion", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse);
 		ImGui::SetWindowFontScale(1.25f);
 		ImGui::Text(coords);
 		ImGui::End();

@@ -1,29 +1,6 @@
 #include "pch.h"
 #include "base.h"
 
-DWORD WINAPI MainThread(LPVOID lpThreadParameter)
-{
-	Base::Data::hModule = (HMODULE)lpThreadParameter;
-	Base::Init();
-
-	if (!AllocConsole())
-	{
-		return FALSE;
-	}
-
-	freopen_s(reinterpret_cast<FILE**>(stdin), "CONIN$", "r", stdin);
-	freopen_s(reinterpret_cast<FILE**>(stdout), "CONOUT$", "w", stdout);
-	SetConsoleTitle(TEXT("GenshinImpact"));
-
-	printf("[+] base address: 0x%llX\n", GetModuleHandle(0));
-
-	Run(FindGenshin());
-
-	FreeConsole();
-
-	return TRUE;
-}
-
 DWORD FindGenshin()
 {
 	HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
@@ -71,6 +48,29 @@ MODULEENTRY32 GetModule(DWORD procId, const wchar_t* str)
 
 	CloseHandle(hSnap);
 	return mod;
+}
+
+DWORD WINAPI MainThread(LPVOID lpThreadParameter)
+{
+	Base::Data::hModule = (HMODULE)lpThreadParameter;
+	Base::Init();
+
+	if (!AllocConsole())
+	{
+		return FALSE;
+	}
+
+	freopen_s(reinterpret_cast<FILE**>(stdin), "CONIN$", "r", stdin);
+	freopen_s(reinterpret_cast<FILE**>(stdout), "CONOUT$", "w", stdout);
+	SetConsoleTitle(TEXT("GenshinImpact"));
+
+	printf("[+] base address: 0x%llX\n", GetModuleHandle(0));
+
+	Run(FindGenshin());
+
+	FreeConsole();
+
+	return TRUE;
 }
 
 DWORD WINAPI ExitThread(LPVOID lpThreadParameter)

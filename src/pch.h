@@ -12,7 +12,6 @@
 #include "../imgui/imgui_impl_dx11.h"
 
 int Run(DWORD processID);
-DWORD FindGenshin();
 MODULEENTRY32 GetModule(DWORD procId, const wchar_t* str);
 
 

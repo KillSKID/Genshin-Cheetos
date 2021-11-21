@@ -398,7 +398,7 @@ namespace ImGui
 	// - Attention! We currently have inconsistencies between window-local and absolute positions we will aim to fix with future API:
 	//    Window-local coordinates:   SameLine(), GetCursorPos(), SetCursorPos(), GetCursorStartPos(), GetContentRegionMax(), GetWindowContentRegion*(), PushTextWrapPos()
 	//    Absolute coordinate:        GetCursorScreenPos(), SetCursorScreenPos(), all ImDrawList:: functions.
-	IMGUI_API void          Separator();                                                    // separator, generally horizontal. inside a menu bar or in horizontal layout mode, this becomes a vertical separator.
+	IMGUI_API void          Separator(int width = 1000);                                                    // separator, generally horizontal. inside a menu bar or in horizontal layout mode, this becomes a vertical separator.
 	IMGUI_API void          SameLine(float offset_from_start_x = 0.0f, float spacing = -1.0f);  // call between widgets or groups to layout them horizontally. X position given in window coordinates.
 	IMGUI_API void          NewLine();                                                      // undo a SameLine() or force a new line when in an horizontal-layout context.
 	IMGUI_API void          Spacing();                                                      // add vertical spacing.
@@ -458,8 +458,8 @@ namespace ImGui
 	// - You may also use one of the many IsItemXXX functions (e.g. IsItemActive, IsItemHovered, etc.) to query widget state.
 	IMGUI_API bool          Button(const char* label, const ImVec2& size = ImVec2(0, 0));   // button
 	IMGUI_API bool          SmallButton(const char* label);                                 // button with FramePadding=(0,0) to easily embed within text
-
-	IMGUI_API bool          ColorBar(const char* label, const ImVec2& size = ImVec2(0, 0));    // ColorBar
+	//(const char* label, const ImVec2& size_arg, float delta)
+	IMGUI_API bool          ColorBar(const char* label, const ImVec2& size_arg = ImVec2(0, 0), float width = 4);    // ColorBar
 	IMGUI_API bool          InvisibleButton(const char* str_id, const ImVec2& size, ImGuiButtonFlags flags = 0); // flexible button behavior without the visuals, frequently useful to build custom behaviors using the public api (along with IsItemActive, IsItemHovered, etc.)
 	IMGUI_API bool          ArrowButton(const char* str_id, ImGuiDir dir);                  // square button with an arrow shape
 	IMGUI_API void          Image(ImTextureID user_texture_id, const ImVec2& size, const ImVec2& uv0 = ImVec2(0, 0), const ImVec2& uv1 = ImVec2(1, 1), const ImVec4& tint_col = ImVec4(1, 1, 1, 1), const ImVec4& border_col = ImVec4(0, 0, 0, 0));
@@ -1398,6 +1398,13 @@ enum ImGuiCol_
 	ImGuiCol_NavWindowingHighlight, // Highlight window when using CTRL+TAB
 	ImGuiCol_NavWindowingDimBg,     // Darken/colorize entire screen behind the CTRL+TAB window list, when active
 	ImGuiCol_ModalWindowDimBg,      // Darken/colorize entire screen behind a modal window, when one is active
+
+	ImGuiCol_ColorBar1,
+	ImGuiCol_ColorBar2,
+	ImGuiCol_ColorBar3,
+	ImGuiCol_ColorBar4,
+	ImGuiCol_ColorBar5,
+	ImGuiCol_ColorBar6,
 	ImGuiCol_COUNT
 
 	// Obsolete names (will be removed)

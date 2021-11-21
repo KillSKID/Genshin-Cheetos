@@ -2370,7 +2370,7 @@ namespace ImGui
 
 	// Widgets
 	IMGUI_API void          TextEx(const char* text, const char* text_end = NULL, ImGuiTextFlags flags = 0);
-	IMGUI_API bool          ColorBarEx(const char* label, const ImVec2& size_arg = ImVec2(0, 0), ImGuiButtonFlags flags = 0);
+	IMGUI_API bool          ColorBarEx(const char* label, const ImVec2& size_arg = ImVec2(0, 0), ImGuiButtonFlags flags = 0, float width = 4);
 	IMGUI_API bool          ButtonEx(const char* label, const ImVec2& size_arg = ImVec2(0, 0), ImGuiButtonFlags flags = 0);
 	IMGUI_API bool          CloseButton(ImGuiID id, const ImVec2& pos);
 	IMGUI_API bool          CollapseButton(ImGuiID id, const ImVec2& pos);
@@ -2381,7 +2381,7 @@ namespace ImGui
 	IMGUI_API ImRect        GetWindowScrollbarRect(ImGuiWindow* window, ImGuiAxis axis);
 	IMGUI_API ImGuiID       GetWindowScrollbarID(ImGuiWindow* window, ImGuiAxis axis);
 	IMGUI_API ImGuiID       GetWindowResizeID(ImGuiWindow* window, int n); // 0..3: corners, 4..7: borders
-	IMGUI_API void          SeparatorEx(ImGuiSeparatorFlags flags);
+	IMGUI_API void          SeparatorEx(ImGuiSeparatorFlags flags, int width);
 
 	// Widgets low-level behaviors
 	IMGUI_API bool          ButtonBehavior(const ImRect& bb, ImGuiID id, bool* out_hovered, bool* out_held, ImGuiButtonFlags flags = 0);

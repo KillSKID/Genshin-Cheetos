@@ -1349,7 +1349,7 @@ void ImGui::AlignTextToFramePadding()
 }
 
 // Horizontal/vertical separating line
-void ImGui::SeparatorEx(ImGuiSeparatorFlags flags)
+void ImGui::SeparatorEx(ImGuiSeparatorFlags flags, int width)
 {
 	ImGuiWindow* window = GetCurrentWindow();
 	if (window->SkipItems)
@@ -1396,7 +1396,7 @@ void ImGui::SeparatorEx(ImGuiSeparatorFlags flags)
 		if (item_visible)
 		{
 			// Draw
-			window->DrawList->AddLine(bb.Min, ImVec2(bb.Max.x, bb.Min.y), GetColorU32(ImGuiCol_Separator));
+			window->DrawList->AddLine(bb.Min, ImVec2(bb.Min.x + width, bb.Min.y), GetColorU32(ImGuiCol_Separator));
 			if (g.LogEnabled)
 				LogRenderedText(&bb.Min, "--------------------------------");
 		}
@@ -1408,7 +1408,7 @@ void ImGui::SeparatorEx(ImGuiSeparatorFlags flags)
 	}
 }
 
-void ImGui::Separator()
+void ImGui::Separator(int width)
 {
 	ImGuiContext& g = *GImGui;
 	ImGuiWindow* window = g.CurrentWindow;
@@ -1418,7 +1418,7 @@ void ImGui::Separator()
 	// Those flags should eventually be overridable by the user
 	ImGuiSeparatorFlags flags = (window->DC.LayoutType == ImGuiLayoutType_Horizontal) ? ImGuiSeparatorFlags_Vertical : ImGuiSeparatorFlags_Horizontal;
 	flags |= ImGuiSeparatorFlags_SpanAllColumns;
-	SeparatorEx(flags);
+	SeparatorEx(flags, width);
 }
 
 // Using 'hover_visibility_delay' allows us to hide the highlight and mouse cursor for a short time, which can be convenient to reduce visual noise.
@@ -6587,7 +6587,7 @@ void ImGui::EndMainMenuBar()
 	End();
 }
 
-bool ImGui::ColorBarEx(const char* label, const ImVec2& size_arg, ImGuiButtonFlags flags)
+bool ImGui::ColorBarEx(const char* label, const ImVec2& size_arg, ImGuiButtonFlags flags, float width)
 {
 	ImGuiWindow* window = GetCurrentWindow();
 
@@ -6596,6 +6596,7 @@ bool ImGui::ColorBarEx(const char* label, const ImVec2& size_arg, ImGuiButtonFla
 
 	ImGuiContext& g = *GImGui;
 
+	ImDrawList* drawList = window->DrawList;
 	const ImGuiStyle& style = g.Style;
 	const ImGuiID id = window->GetID(label);
 	const ImVec2 label_size = CalcTextSize(label, NULL, true);
@@ -6617,24 +6618,32 @@ bool ImGui::ColorBarEx(const char* label, const ImVec2& size_arg, ImGuiButtonFla
 	if (window->DC.ItemFlags & ImGuiItemFlags_ButtonRepeat)
 		flags |= ImGuiButtonFlags_Repeat;
 
-	// Render
-	auto black = GetColorU32(ImVec4(0.0, 0.0, 0.0, 0.43));
 	ImVec2 p = GetCursorScreenPos();
-	window->DrawList->AddRectFilledMultiColor(ImVec2(p.x, p.y - 6), ImVec2(p.x + ImGui::GetWindowWidth() / 2, p.y - 4), ImColor(12, 12, 12), ImColor(12, 12, 12), ImColor(12, 12, 12), ImColor(12, 12, 12));
-	window->DrawList->AddRectFilledMultiColor(ImVec2(p.x + ImGui::GetWindowWidth() / 2, p.y - 6), ImVec2(p.x + ImGui::GetWindowWidth(), p.y - 4), ImColor(12, 12, 12), ImColor(12, 12, 12), ImColor(12, 12, 12), ImColor(12, 12, 12));
 
-	window->DrawList->AddRectFilledMultiColor(ImVec2(p.x + 1, p.y - 5), ImVec2(p.x + ImGui::GetWindowWidth() / 2, p.y - 3), ImColor(55, 177, 218), ImColor(201, 84, 192), ImColor(201, 84, 192), ImColor(55, 177, 218));
-	window->DrawList->AddRectFilledMultiColor(ImVec2(p.x + ImGui::GetWindowWidth() / 2, p.y - 5), ImVec2(p.x + ImGui::GetWindowWidth() - 1, p.y - 3), ImColor(201, 84, 192), ImColor(204, 227, 54), ImColor(204, 227, 54), ImColor(201, 84, 192));
+	ImColor color1 = GetColorU32(ImGuiCol_ColorBar1);
+	ImColor color2 = GetColorU32(ImGuiCol_ColorBar2);
+	ImColor color3 = GetColorU32(ImGuiCol_ColorBar3);
+	ImColor color4 = GetColorU32(ImGuiCol_ColorBar4);
+	ImColor color5 = GetColorU32(ImGuiCol_ColorBar5);
+	ImColor color6 = GetColorU32(ImGuiCol_ColorBar6);
 
-	window->DrawList->AddRectFilledMultiColor(ImVec2(p.x + 1, p.y - 4), ImVec2(p.x + ImGui::GetWindowWidth() / 2, p.y - 2), black, black, black, black);
-	window->DrawList->AddRectFilledMultiColor(ImVec2(p.x + ImGui::GetWindowWidth() / 2, p.y - 4), ImVec2(p.x + ImGui::GetWindowWidth() - 1, p.y - 2), black, black, black, black);
+	float step = ImGui::GetWindowWidth() / 5.f; 
+
+	drawList->AddRectFilledMultiColor(ImVec2(p.x + step * 0, p.y - 2 - width), ImVec2(p.x + step * 1, p.y - 2), color1, color2, color2, color1);
+	drawList->AddRectFilledMultiColor(ImVec2(p.x + step * 1, p.y - 2 - width), ImVec2(p.x + step * 2, p.y - 2), color2, color3, color3,color2);
+
+	drawList->AddRectFilledMultiColor(ImVec2(p.x + step * 2, p.y - 2 - width), ImVec2(p.x + step * 3, p.y - 2), color3, color4, color4,color3);
+	drawList->AddRectFilledMultiColor(ImVec2(p.x + step * 3, p.y - 2 - width), ImVec2(p.x + step * 4, p.y - 2), color4, color5, color5,color4);
+
+	drawList->AddRectFilledMultiColor(ImVec2(p.x + step * 4, p.y - 2 - width), ImVec2(p.x + step * 5, p.y - 2), color5, color6, color6, color5);
+
 
 	return false;
 }
 
-bool ImGui::ColorBar(const char* label, const ImVec2& size_arg)
+bool ImGui::ColorBar(const char* label, const ImVec2& size_arg, float width)
 {
-	return ColorBarEx(label, size_arg, 0);
+	return ColorBarEx(label, size_arg, 0, width);
 }
 
 bool ImGui::BeginMenu(const char* label, bool enabled)

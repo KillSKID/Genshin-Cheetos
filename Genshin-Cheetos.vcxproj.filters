@@ -55,6 +55,9 @@
     <ClCompile Include="hooks\Present.cpp">
       <Filter>features</Filter>
     </ClCompile>
+    <ClCompile Include="src\ColorUtil.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="configs\Configs.h">
@@ -107,6 +110,9 @@
     </ClInclude>
     <ClInclude Include="hooks\FontData.h">
       <Filter>hooks</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ColorUtil.h">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

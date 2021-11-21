@@ -128,6 +128,7 @@
     <ClCompile Include="hooks\hooks.cpp" />
     <ClCompile Include="hooks\Present.cpp" />
     <ClCompile Include="hooks\WndProc.cpp" />
+    <ClCompile Include="src\ColorUtil.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -151,6 +152,7 @@
     <ClInclude Include="pattern scanner\Pattern Scanner.h" />
     <ClInclude Include="pattern scanner\Patterns list.h" />
     <ClInclude Include="src\base.h" />
+    <ClInclude Include="src\ColorUtil.h" />
     <ClInclude Include="src\pch.h" />
   </ItemGroup>
   <ItemGroup>
