@@ -73,8 +73,9 @@ HRESULT PRESENT_CALL Base::Hooks::Present(IDXGISwapChain* thisptr, UINT SyncInte
 	ImGuiStyle& style = ImGui::GetStyle();
 
 	static ImColor mainColor = ImColor(0, 122, 204, AnimateAlpha);
-	static ImColor ImColor0 = ImColor(mainColor.Value.x, mainColor.Value.y, mainColor.Value.z);
 	static float my_color[4] = { 0.f, 0.47843137254f, 0.8f, 1.f };
+
+	ImColor mainColor0 = ImColor(mainColor.Value.x, mainColor.Value.y, mainColor.Value.z);
 
 	auto colors = style.Colors;
 	style.Alpha = AnimateAlpha / 255.f;
@@ -96,8 +97,8 @@ HRESULT PRESENT_CALL Base::Hooks::Present(IDXGISwapChain* thisptr, UINT SyncInte
 	colors[ImGuiCol_FrameBgHovered] = ImColor(40, 40, 40);
 	colors[ImGuiCol_FrameBgActive] = ImColor(20, 20, 20, AnimateAlpha);
 	colors[ImGuiCol_Separator] = mainColor;
-	colors[ImGuiCol_SliderGrab] = ImColor0;
-	colors[ImGuiCol_SliderGrabActive] = ImColor0;
+	colors[ImGuiCol_SliderGrab] = mainColor0;
+	colors[ImGuiCol_SliderGrabActive] = mainColor0;
 	colors[ImGuiCol_PopupBg] = ImColor(30, 30, 30, AnimateAlpha);
 	colors[ImGuiCol_ScrollbarBg] = ImColor(0, 0, 0, 0);
 	colors[ImGuiCol_ScrollbarGrab] = mainColor;
@@ -111,7 +112,7 @@ HRESULT PRESENT_CALL Base::Hooks::Present(IDXGISwapChain* thisptr, UINT SyncInte
 	colors[ImGuiCol_ButtonHovered] = ImColor(21, 21, 21, 30);
 	colors[ImGuiCol_ButtonActive] = ImColor(21, 21, 21, 200);
 	colors[ImGuiCol_Text] = ImColor(255, 255, 255, AnimateAlpha);
-	colors[ImGuiCol_CheckMark] = mainColor;
+	colors[ImGuiCol_CheckMark] = mainColor0;
 
 	if (AnimateAlpha > 0)
 	{
@@ -413,7 +414,7 @@ HRESULT PRESENT_CALL Base::Hooks::Present(IDXGISwapChain* thisptr, UINT SyncInte
 		ImGui::Begin("arraylist", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse);
 		ImGui::SetWindowFontScale(1.1f);
 		float startH = h;
-		const char* arrays[11] = {};
+		const char* arrays[] = { 0 };
 		int index = 0;
 		if (cfg.EnableNo_CoolDown) {
 			arrays[index] = "NoSkillsCooldown";
