@@ -8382,8 +8382,7 @@ static const unsigned int museosans_compressed_data[56484 / 4] =
 	0x01000000, 0x00240382, 0xcfa23dcc, 0xc22b0783, 0x00b01973, 0xcc000000, 0x05449846, 0xefacc8fa, 0x000000fb,
 };
 
-// File: 'Sadness-Genshin.ttf' (58292 bytes)
-// Exported using binary_to_compressed_c.cpp
+
 static const unsigned int genshin_compressed_size = 41317;
 static const unsigned int genshin_compressed_data[41320 / 4] =
 {

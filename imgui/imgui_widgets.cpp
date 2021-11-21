@@ -1098,7 +1098,7 @@ bool ImGui::Checkbox(const char* label, bool* v)
 	auto topColorHovered = ImColor(86, 86, 86, alpha);
 	auto bottomColorHovered = ImColor(61, 61, 61, alpha);
 	auto checkedTopColor = GetColorU32(ImGuiCol_CheckMark);
-	auto checkedBottomColor = GetColorU32(ImGuiCol_CheckMark) - ImColor(0, 0, 0, 120);
+	auto checkedBottomColor = GetColorU32(ImGuiCol_CheckMark) - ImColor(0, 0, 0, (120.0 * style.Alpha));
 
 	if (*v) {
 		window->DrawList->AddRectFilledMultiColor(check_bb.Min + ImVec2(3, 3), check_bb.Max - ImVec2(3, 3), checkedTopColor, checkedTopColor, checkedBottomColor, checkedBottomColor);
