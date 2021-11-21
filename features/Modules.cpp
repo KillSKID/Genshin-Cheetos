@@ -59,12 +59,11 @@ int Run(DWORD processID)
 
 		std::this_thread::sleep_for(std::chrono::milliseconds(10)); // 100 ticks looping
 
-		if (h >= 360) {
+		h += cfg.rainbowSpeed;
+		if (h > 360) {
 			h = 0;
 		}
-		else {
-			h += cfg.rainbowSpeed;
-		}
+
 		if (ShowAnimation && animationDelta < 255) {
 			animationDelta += 5;
 		}

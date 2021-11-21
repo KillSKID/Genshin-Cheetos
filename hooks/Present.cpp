@@ -466,10 +466,9 @@ HRESULT PRESENT_CALL Base::Hooks::Present(IDXGISwapChain* thisptr, UINT SyncInte
 
 		for (int i = 0; i < index; i++) {
 			ImGui::TextColored(HSVtoRGB(startH, cfg.Saturation, cfg.Brightness), arrays[i]);
-			if (h >= 360 || startH + 10 >= 360) {
+			if (startH > 360) {
 				startH = 0;
-			}
-			else {
+			} else {
 				startH += 10;
 			}
 		}
