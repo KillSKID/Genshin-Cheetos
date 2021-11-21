@@ -19,6 +19,7 @@ ImFont* verdana;
 ImFont* roboto;
 ImFont* museosans;
 ImFont* iconFont;
+ImFont* genshin;
 
 HRESULT PRESENT_CALL Base::Hooks::Present(IDXGISwapChain* thisptr, UINT SyncInterval, UINT Flags)
 {
@@ -50,6 +51,7 @@ HRESULT PRESENT_CALL Base::Hooks::Present(IDXGISwapChain* thisptr, UINT SyncInte
 			ImGuiIO& io = ImGui::GetIO();
 
 			verdana = io.Fonts->AddFontFromMemoryCompressedTTF(verdana_compressed_data, verdana_compressed_size, 14, NULL, io.Fonts->GetGlyphRangesCyrillic());
+			genshin = io.Fonts->AddFontFromMemoryCompressedTTF(genshin_compressed_data, genshin_compressed_size, 12, NULL, io.Fonts->GetGlyphRangesCyrillic());
 			roboto = io.Fonts->AddFontFromMemoryCompressedTTF(roboto_compressed_data, roboto_compressed_size, 14, NULL, io.Fonts->GetGlyphRangesCyrillic());
 			museosans = io.Fonts->AddFontFromMemoryCompressedTTF(museosans_compressed_data, museosans_compressed_size, 14, NULL, io.Fonts->GetGlyphRangesCyrillic());
 			iconFont = io.Fonts->AddFontFromMemoryCompressedTTF(iconfont_compressed_data, iconfont_compressed_size, 64, NULL, io.Fonts->GetGlyphRangesCyrillic());
@@ -148,7 +150,7 @@ HRESULT PRESENT_CALL Base::Hooks::Present(IDXGISwapChain* thisptr, UINT SyncInte
 			};
 			ImGui::EndGroup();
 
-			const char* fonts[] = { "Verdana", "Roboto", "Museosans" };
+			const char* fonts[] = { "Verdana", "Roboto", "Museosans", "Genshin"};
 			static int fontIndex = 0;
 
 			ImGui::PopFont();
@@ -167,6 +169,7 @@ HRESULT PRESENT_CALL Base::Hooks::Present(IDXGISwapChain* thisptr, UINT SyncInte
 				break;
 			}
 			default:
+				ImGui::PushFont(genshin);
 				break;
 			}
 			ImGui::SetWindowFontScale(1);
