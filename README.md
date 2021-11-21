@@ -16,4 +16,4 @@ Based on https://github.com/xsslize/Genshin-Cheat-Base, https://github.com/KnsGo
 
 
 and comes with a gui (F11 toggle gui)
-![image](https://i.imgur.com/YVe2mM6.png)
+![image](https://i.imgur.com/uOX60sr.png)
