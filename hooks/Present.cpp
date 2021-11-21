@@ -225,7 +225,7 @@ HRESULT PRESENT_CALL Base::Hooks::Present(IDXGISwapChain* thisptr, UINT SyncInte
 								ImGui::SliderFloat("Rb Saturation", &s, 0.f, 100.f, "%f");
 								ImGui::SliderFloat("Rb Brightness", &b, 0.f, 100.f, "%f");
 
-								ImGui::Combo("Font", &fontIndex, fonts, IM_ARRAYSIZE(fonts));
+								ImGui::Combo("UI Font", &fontIndex, fonts, IM_ARRAYSIZE(fonts));
 
 								ImGui::SliderFloat("Rb Speed", &rainbowSpeed, 0.f, 10.f, "%f");
 								ImGui::Checkbox("Watermark", &waterMark);
