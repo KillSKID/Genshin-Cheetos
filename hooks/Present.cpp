@@ -313,7 +313,7 @@ HRESULT PRESENT_CALL Base::Hooks::Present(IDXGISwapChain* thisptr, UINT SyncInte
 						ImGui::BeginGroup();
 						{
 							ImGui::Spacing();
-							ImGui::Text("Make by killred");
+							ImGui::Text("Make by KillRED#7392");
 							ImGui::NextColumn();
 							ImGui::Text("[Information]");
 							ImGui::NextColumn();
