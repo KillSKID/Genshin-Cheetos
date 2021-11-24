@@ -91,12 +91,12 @@ int Run(DWORD processID)
 			Patch((BYTE*)(UserAssembly.modBaseAddr + 0x3556638), (BYTE*)"\x87", 1);
 		}
 
-		if (cfg.EnableInfStamina) {
-			Patch((BYTE*)(UserAssembly.modBaseAddr + 0x74A45DD), (BYTE*)"\x10", 1);
-		}
-		else {
-			Patch((BYTE*)(UserAssembly.modBaseAddr + 0x74A45DD), (BYTE*)"\x11", 1);
-		}
+		//if (cfg.EnableInfStamina) {
+		//	Patch((BYTE*)(UserAssembly.modBaseAddr + 0x74A45DD), (BYTE*)"\x10", 1);
+		//}
+		//else {
+		//	Patch((BYTE*)(UserAssembly.modBaseAddr + 0x74A45DD), (BYTE*)"\x11", 1);
+		//}
 
 		if (cfg.EnableNo_CoolDown) {
 			Patch((BYTE*)(UserAssembly.modBaseAddr + 0x29CCC46), (BYTE*)"\x10", 1);
