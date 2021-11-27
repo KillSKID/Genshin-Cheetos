@@ -439,10 +439,6 @@ HRESULT PRESENT_CALL Base::Hooks::Present(IDXGISwapChain* thisptr, UINT SyncInte
 			arrays[index] = "InfStamina";
 			index++;
 		}
-		if (cfg.Enable_LockY) {
-			arrays[index] = "NoFallDown";
-			index++;
-		}
 		if (cfg.EnableNo_QCharge) {
 			arrays[index] = "NoQCharge";
 			index++;
